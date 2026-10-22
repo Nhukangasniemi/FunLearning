@@ -10,6 +10,7 @@ An English learning hub for kids from 6-13 years old.
 - **Architecture & Curriculum Spec**: [project-overview.md](rules/project-overview.md)
 - **Design System & Palette**: [design.md](rules/design.md)
 - **Active Feature Tracker**: [current-feature.md](rules/current-feature.md)
+- **Database & Prisma Setup Spec**: [data-spec.md](rules/data-spec.md)
 
 ## Commands
 - `npm run dev` — start the dev server (http://localhost:3000)

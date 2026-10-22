@@ -142,22 +142,117 @@ With the architecture proven in Unit 4, upcoming units follow the identical modu
 
 ### 4.1 Entity Relationship Diagram
 
-The schema generalizes the MVP `FoodItem` structure into a scalable multi-series, multi-unit curriculum:
+The schema generalizes the MVP `FoodItem` structure into a complete multi-series, multi-unit Cambridge learning hub, managed via Prisma 7 and hosted on Neon Serverless PostgreSQL:
 
 ```mermaid
 erDiagram
     USER ||--o{ ACCOUNT : "oauth accounts"
     USER ||--o{ SESSION : "active sessions"
-    USER ||--o{ LEARNING_ITEM : "creates custom"
-    USER ||--o| USER_PROGRESS : "tracks overall progress"
-    USER ||--o{ CHILD_PROFILE : "manages"
+    USER ||--o{ VOCABULARY_ITEM : "creates custom words"
+    USER ||--o{ UNIT_PROGRESS : "records unit completion"
+    USER ||--o{ WORD_PROGRESS : "tracks word mastery"
 
-    SERIES ||--o{ BOOK_UNIT : "contains"
-    BOOK_UNIT ||--o{ LEARNING_ITEM : "teaches"
-    BOOK_UNIT ||--o{ QUIZ_QUESTION : "assesses"
-    LEARNING_ITEM ||--o{ SPELLING_PUZZLE : "spells"
+    BOOK ||--o{ UNIT : "contains"
+    UNIT ||--o{ VOCABULARY_ITEM : "teaches"
+    UNIT ||--o{ QUIZ_QUESTION : "assesses"
+    UNIT ||--o{ UNIT_PROGRESS : "tracks progress"
     QUIZ_QUESTION ||--o{ QUIZ_OPTION : "has"
-    CHILD_PROFILE ||--o{ UNIT_PROGRESS : "records completion"
+    VOCABULARY_ITEM ||--o{ QUIZ_OPTION : "referenced by"
+    VOCABULARY_ITEM ||--o{ WORD_PROGRESS : "tracked in"
+
+    BOOK {
+        string id PK "cuid"
+        string slug UK "e.g. starters, movers, flyers"
+        string title "Get Ready for Starters"
+        string series "Starters | Movers | Flyers | Custom"
+        string level "Pre-A1 | A1 | A2"
+        string target_age "3-8 | 8-10 | 10-13"
+        string description
+        string cover_image
+        string theme_color
+        int sort_order
+        boolean is_published
+    }
+
+    UNIT {
+        string id PK "cuid"
+        string book_id FK
+        int unit_number "1, 2, 4..."
+        string slug "e.g. unit-4-food"
+        string title "Food!"
+        string description
+        string icon "Lucide icon name"
+        string theme_color
+        string companion "lily"
+        int sort_order
+        boolean is_published
+    }
+
+    VOCABULARY_ITEM {
+        string id PK "cuid"
+        string unit_id FK
+        string word "chicken"
+        string display_name "Chicken"
+        string phonics "chick · en"
+        string category "meal | fruit | clothes | classroom"
+        string example_sentence
+        string definition
+        string svg "inline vector art"
+        string image_url "Cloudflare R2 URL"
+        string audio_url
+        boolean is_from_book
+        string book_source "Page 29"
+        int sort_order
+        json game_metadata "suitableMeals, clothingLayer, etc."
+        string user_id FK "null for official curriculum items"
+    }
+
+    QUIZ_QUESTION {
+        string id PK "cuid"
+        string unit_id FK
+        string book_page "Page 29"
+        string part "Listening Part 3"
+        string question
+        string instruction
+        string audio_transcript
+        string correct_option
+        boolean multi_choice
+        string explanation
+        int sort_order
+    }
+
+    QUIZ_OPTION {
+        string id PK "cuid"
+        string question_id FK
+        string text
+        boolean is_correct
+        string image_label
+        string[] combo
+        string vocabulary_item_id FK "optional relation"
+    }
+
+    UNIT_PROGRESS {
+        string id PK "cuid"
+        string user_id FK
+        string unit_id FK
+        int stars_earned
+        boolean is_completed
+        boolean learn_completed
+        boolean flashcards_completed
+        boolean games_completed
+        int quiz_score
+        datetime completed_at
+    }
+
+    WORD_PROGRESS {
+        string id PK "cuid"
+        string user_id FK
+        string vocabulary_item_id FK
+        int mastery_level "0=new, 1=learning, 2=mastered"
+        int review_count
+        int mistake_count
+        datetime last_reviewed_at
+    }
 
     USER {
         string id PK "cuid"
@@ -172,88 +267,31 @@ erDiagram
         string stripePriceId
         datetime stripeCurrentPeriodEnd
     }
-    CHILD_PROFILE {
-        string id PK "cuid"
+
+    ACCOUNT {
         string userId FK
-        string name
-        int age
-        string avatar
-        string currentSeriesId FK
+        string type
+        string provider
+        string providerAccountId
+        string refresh_token
+        string access_token
+        int expires_at
+        string token_type
+        string scope
+        string id_token
+        string session_state
     }
-    SERIES {
-        string id PK "starters | movers | flyers"
-        string title "Get Ready for Starters"
-        string level "Pre-A1 | A1 | A2"
-        string ageRange "3-8 | 8-10 | 10-13"
-        int sortOrder
+
+    SESSION {
+        string sessionToken UK
+        string userId FK
+        datetime expires
     }
-    BOOK_UNIT {
-        string id PK "e.g. starters-unit-4"
-        string seriesId FK
-        int unitNumber "4"
-        string title "Food!"
-        string themeColor
-        string icon
-    }
-    LEARNING_ITEM {
-        string id PK
-        string unitId FK
-        string name
-        string displayName
-        string phonics "syllable breakdown"
-        string category "meal | fruit | clothes | animal"
-        string[] suitableMeals "for food unit"
-        string source "Page 29"
-        boolean isFromBook
-        string sentence
-        string svg "inline vector art"
-        string imageUrl "Cloudflare R2 URL"
-        string userId FK "null for official curriculum items"
-    }
-    QUIZ_QUESTION {
-        string id PK
-        string unitId FK
-        string bookPage "Page 29"
-        string part "Listening Part 3"
-        string question
-        string instruction
-        string audioTranscript
-        string correctOption
-        boolean multiChoice
-        string[] fruitsInBag
-        string explanation
-    }
-    QUIZ_OPTION {
-        string id PK
-        string questionId FK
-        string text
-        string itemId FK
-        string[] combo
-        boolean isCorrect
-        string imageLabel
-    }
-    SPELLING_PUZZLE {
-        string id PK
-        string itemId FK
-        string word
-        string[] letters
-        string hint
-    }
-    USER_PROGRESS {
-        string id PK "cuid"
-        string userId FK "unique"
-        int stars
-        string[] completedUnits "e.g. starters-u4"
-        int quizScore
-        int spellingScore
-    }
-    UNIT_PROGRESS {
-        string id PK "cuid"
-        string profileId FK
-        string unitId FK
-        boolean isCompleted
-        int starsEarned
-        datetime completedAt
+
+    VERIFICATION_TOKEN {
+        string identifier
+        string token
+        datetime expires
     }
 ```
 
@@ -261,17 +299,32 @@ erDiagram
 
 **[`prisma/schema.prisma`](../../prisma/schema.prisma) is the source of truth.** 
 
-#### Evolution from `FoodItem` to Multi-Unit Curriculum
-- In the initial MVP, the model is named `FoodItem` with food-specific fields (`suitableMeals: String[]`).
-- **Phase 2 Migration Plan**: Generalize `FoodItem` into `LearningItem` with a `unitId` relation pointing to `BookUnit` and `BookSeries`. To preserve backward compatibility with the live Food unit, existing food items will map to `unitId = "starters-unit-4"`, ensuring zero disruption to existing UI components.
+#### Multi-Unit Curriculum & Unified Database Standard
+- **Curriculum & Auth Models**: The schema implements `User`, `Account`, `Session`, `VerificationToken`, `Book`, `Unit`, `VocabularyItem`, `QuizQuestion`, `QuizOption`, `UnitProgress`, and `WordProgress`.
+- **Strict snake_case Convention**: All tables map to PostgreSQL plural `snake_case` using `@@map` (`users`, `accounts`, `sessions`, `verification_tokens`, `books`, `units`, `vocabulary_items`, `quiz_questions`, `quiz_options`, `unit_progress`, `word_progress`), and all multi-word fields use `@map` on columns (`created_at`, `email_verified`, `unit_id`, etc.).
+- **Legacy Models Removed**: The initial proof-of-concept `FoodItem` and `UserProgress` tables have been dropped; food curriculum items now live directly in `vocabulary_items` with unit relations and `game_metadata`, and progress is tracked via `unit_progress`.
 
 #### Database Design Decisions
-- **CUID Primary Keys**: Uses web-friendly string IDs (`@default(cuid())`), matching Auth.js defaults.
-- **System vs. Custom Items**: Official book items have `userId = null` and cannot be deleted by users. Parent/teacher created items set `userId` with `onDelete: SetNull`.
-- **Neon Driver Adapter**: Uses `@prisma/adapter-neon` with `@neondatabase/serverless` for fast pooled queries over WebSockets/HTTP.
-- **Connection Strings**:
-  - `DATABASE_URL`: Pooled connection string (`-pooler` host) for API queries and Server Components.
-  - `DIRECT_URL`: Unpooled connection string for running migrations (`prisma migrate dev`).
+- **CUID Primary Keys**: All models use web-friendly string IDs (`@default(cuid())`), matching Auth.js v5 defaults.
+- **Indexes & Unique Constraints**:
+  - `Unit`: `@@unique([bookId, slug])`, `@@index([bookId, sortOrder])`
+  - `VocabularyItem`: `@@index([unitId, sortOrder])`
+  - `QuizQuestion`: `@@index([unitId, sortOrder])`
+  - `UnitProgress`: `@@unique([userId, unitId])`
+  - `WordProgress`: `@@unique([userId, vocabularyItemId])`, `@@index([userId, masteryLevel])`
+  - NextAuth: `Account @@id([provider, providerAccountId])`, `Session @unique([sessionToken])`, `VerificationToken @@id([identifier, token])`.
+- **Cascade Deletes & Ownership**:
+  - Deleting a `Book` cascades down to `Unit`, `VocabularyItem`, `QuizQuestion`, `QuizOption`, and `UnitProgress`.
+  - Deleting a `User` cascades down to `Account`, `Session`, `UnitProgress`, `WordProgress`.
+  - System curriculum items have `userId = null`. User-created items set `userId` with `onDelete: SetNull`.
+
+#### Prisma 7 + Neon PostgreSQL Setup
+- **Serverless PostgreSQL**: Hosted on Neon (`ep-*-pooler.c-8.eu-central-1.aws.neon.tech`).
+- **Connection Strategy**:
+  - `DATABASE_URL`: Connection-pooled URL (`-pooler` host) configured in runtime via `@prisma/adapter-neon` with `@neondatabase/serverless` for fast serverless queries over WebSockets/HTTP.
+  - `DATABASE_URL_UNPOOLED`: Direct connection URL used in `prisma.config.ts` for running migrations (`prisma migrate dev` and `prisma migrate deploy`) to avoid connection pooler transaction/advisory lock limitations.
+- **Branching Policy**: Development branch configured in `neon.ts` for feature iteration; production branch for deployed releases. Schema changes are strictly managed via migrations (never `db push`).
+- **Prisma 7 Configuration**: Config in `prisma.config.ts`, generated client output at `src/generated/prisma`. Run `npm run prisma:generate` after any schema change.
 
 ---
 

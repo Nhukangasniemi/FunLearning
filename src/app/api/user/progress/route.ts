@@ -11,11 +11,19 @@ export async function GET() {
       return NextResponse.json({ stars: 0, completedMeals: [], quizScore: 0 });
     }
 
-    const progress = await prisma.userProgress.findUnique({
+    const unitProgresses = await prisma.unitProgress.findMany({
       where: { userId },
     });
 
-    return NextResponse.json(progress || { stars: 0, completedMeals: [], quizScore: 0 });
+    const totalStars = unitProgresses.reduce((acc, u) => acc + u.starsEarned, 0);
+    const totalQuizScore = unitProgresses.reduce((acc, u) => acc + u.quizScore, 0);
+
+    return NextResponse.json({
+      stars: totalStars,
+      completedMeals: [],
+      quizScore: totalQuizScore,
+      unitProgresses,
+    });
   } catch (error) {
     return NextResponse.json({ error: (error as Error).message }, { status: 500 });
   }
@@ -26,26 +34,36 @@ export async function POST(req: Request) {
     const session = await auth();
     const userId = session?.user?.id;
     const body = await req.json();
-    const { stars = 0, completedMeals = [], quizScore = 0, spellingScore = 0 } = body;
+    const { stars = 0, quizScore = 0, spellingScore = 0, unitSlug = "unit-4-food" } = body;
 
     if (!userId || userId === "guest-user") {
-      return NextResponse.json({ saved: false, guest: true, data: { stars, completedMeals, quizScore, spellingScore } });
+      return NextResponse.json({ saved: false, guest: true, data: { stars, quizScore, spellingScore } });
     }
 
-    const progress = await prisma.userProgress.upsert({
-      where: { userId },
+    const unit = await prisma.unit.findFirst({
+      where: { slug: unitSlug },
+    });
+
+    if (!unit) {
+      return NextResponse.json({ error: `Unit ${unitSlug} not found` }, { status: 404 });
+    }
+
+    const progress = await prisma.unitProgress.upsert({
+      where: {
+        userId_unitId: {
+          userId,
+          unitId: unit.id,
+        },
+      },
       update: {
-        stars,
-        completedMeals,
-        quizScore,
-        spellingScore,
+        starsEarned: { increment: stars },
+        quizScore: quizScore || undefined,
       },
       create: {
         userId,
-        stars,
-        completedMeals,
-        quizScore,
-        spellingScore,
+        unitId: unit.id,
+        starsEarned: stars,
+        quizScore: quizScore || 0,
       },
     });
 

@@ -10,7 +10,8 @@ import { ProModal } from "@/components/ProModal";
 import { FOOD_ITEMS as INITIAL_FOODS } from "@/data/foodItems";
 import { FoodItemType, MealType } from "@/types";
 import { soundManager } from "@/lib/audio";
-import { Award, BookOpen, Utensils, Library } from "lucide-react";
+import { Award, BookOpen, Utensils, Library, ArrowRight, Sparkles } from "lucide-react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -138,6 +139,31 @@ export default function HomePage() {
         isPro={isPro}
         onOpenProModal={() => setIsProModalOpen(true)}
       />
+
+      {/* Curriculum Hub Quick Jump Banner */}
+      <div className="w-full bg-gradient-to-r from-pink-500 via-purple-600 to-indigo-600 text-white shadow-md">
+        <div className="max-w-7xl mx-auto px-4 py-2.5 flex items-center justify-between flex-wrap gap-2">
+          <div className="flex items-center gap-2">
+            <span className="font-extrabold text-xs md:text-sm flex items-center gap-1.5">
+              <Sparkles className="w-4 h-4 text-amber-300" />
+              Cambridge YLE Learning Hub:
+            </span>
+            <span className="text-xs text-pink-100 hidden sm:inline">
+              Explore all books, flashcards & games across every unit!
+            </span>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <Link
+              href="/books/starters"
+              className="px-3.5 py-1.5 bg-white text-slate-900 rounded-full font-black text-xs hover:bg-pink-100 shadow-sm transition-all flex items-center gap-1.5"
+            >
+              <span>Get Ready for Starters (6 Units)</span>
+              <ArrowRight className="w-3.5 h-3.5 text-pink-600" />
+            </Link>
+          </div>
+        </div>
+      </div>
 
       {/* Main Tab Navigation */}
       <nav className="w-full border-b border-slate-200/80 bg-white/70 backdrop-blur-md shadow-2xs">

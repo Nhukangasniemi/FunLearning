@@ -20,12 +20,31 @@ const createFoodSchema = z.object({
 
 export async function GET() {
   try {
-    const dbItems = await prisma.foodItem.findMany({
-      orderBy: { createdAt: "asc" },
+    const dbItems = await prisma.vocabularyItem.findMany({
+      where: {
+        unit: { slug: "unit-4-food" },
+      },
+      orderBy: { sortOrder: "asc" },
     });
 
     if (dbItems && dbItems.length > 0) {
-      return NextResponse.json({ items: dbItems });
+      const items = dbItems.map((v) => {
+        const metadata = (v.gameMetadata as { suitableMeals?: string[] }) || {};
+        return {
+          id: v.word,
+          name: v.word,
+          displayName: v.displayName,
+          phonics: v.phonics,
+          category: v.category || "meal",
+          suitableMeals: metadata.suitableMeals || ["lunch", "dinner"],
+          source: v.bookSource || "Cambridge Starters",
+          isFromBook: v.isFromBook,
+          sentence: v.exampleSentence,
+          svg: v.svg || undefined,
+          imageUrl: v.imageUrl || undefined,
+        };
+      });
+      return NextResponse.json({ items });
     }
   } catch (err) {
     console.warn("Neon DB query fallback to local Starters dataset:", err);
@@ -41,19 +60,30 @@ export async function POST(req: Request) {
     const body = await req.json();
     const validated = createFoodSchema.parse(body);
 
-    const newItem = await prisma.foodItem.create({
+    const foodUnit = await prisma.unit.findFirst({
+      where: { slug: "unit-4-food" },
+    });
+
+    if (!foodUnit) {
+      return NextResponse.json(
+        { error: "Unit 4 Food unit not found in database" },
+        { status: 400 }
+      );
+    }
+
+    const newItem = await prisma.vocabularyItem.create({
       data: {
-        id: validated.id,
-        name: validated.name.toLowerCase(),
+        unitId: foodUnit.id,
+        word: validated.name.toLowerCase(),
         displayName: validated.displayName,
         phonics: validated.phonics,
         category: validated.category,
-        suitableMeals: validated.suitableMeals,
-        source: validated.source,
-        isFromBook: validated.isFromBook,
-        sentence: validated.sentence,
+        exampleSentence: validated.sentence,
         svg: validated.svg,
         imageUrl: validated.imageUrl,
+        bookSource: validated.source,
+        isFromBook: validated.isFromBook,
+        gameMetadata: { suitableMeals: validated.suitableMeals },
         userId: session?.user?.id || null,
       },
     });

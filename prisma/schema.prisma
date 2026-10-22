@@ -8,56 +8,64 @@ generator client {
 }
 
 model User {
-  id                    String        @id @default(cuid())
-  name                  String?
-  email                 String?       @unique
-  emailVerified         DateTime?
-  image                 String?
-  password              String?       // For credentials login
-  isPro                 Boolean       @default(false)
-  stripeCustomerId      String?       @unique
-  stripeSubscriptionId  String?       @unique
-  stripePriceId         String?
-  stripeCurrentPeriodEnd DateTime?
+  id                     String    @id @default(cuid())
+  name                   String?
+  email                  String?   @unique
+  emailVerified          DateTime? @map("email_verified")
+  image                  String?
+  password               String?   // For credentials login
+  isPro                  Boolean   @default(false) @map("is_pro")
+  stripeCustomerId       String?   @unique @map("stripe_customer_id")
+  stripeSubscriptionId   String?   @unique @map("stripe_subscription_id")
+  stripePriceId          String?   @map("stripe_price_id")
+  stripeCurrentPeriodEnd DateTime? @map("stripe_current_period_end")
 
-  accounts              Account[]
-  sessions              Session[]
-  foodItems             FoodItem[]
-  progress              UserProgress?
+  accounts               Account[]
+  sessions               Session[]
 
-  createdAt             DateTime      @default(now())
-  updatedAt             DateTime      @updatedAt
+  // Curriculum Relations
+  vocabularyItems        VocabularyItem[]
+  unitProgress           UnitProgress[]
+  wordProgress           WordProgress[]
+
+  createdAt              DateTime  @default(now()) @map("created_at")
+  updatedAt              DateTime  @updatedAt @map("updated_at")
+
+  @@map("users")
 }
 
 model Account {
-  userId            String
+  userId            String   @map("user_id")
   type              String
   provider          String
-  providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
+  providerAccountId String   @map("provider_account_id")
+  refresh_token     String?  @db.Text
+  access_token      String?  @db.Text
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? @db.Text
+  id_token          String?  @db.Text
   session_state     String?
 
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
 
-  user              User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([provider, providerAccountId])
+  @@map("accounts")
 }
 
 model Session {
-  sessionToken String   @unique
-  userId       String
+  sessionToken String   @unique @map("session_token")
+  userId       String   @map("user_id")
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@map("sessions")
 }
 
 model VerificationToken {
@@ -66,38 +74,178 @@ model VerificationToken {
   expires    DateTime
 
   @@id([identifier, token])
+  @@map("verification_tokens")
 }
 
-model FoodItem {
-  id              String   @id
-  name            String
-  displayName     String
-  phonics         String
-  category        String   // e.g. "meal", "dessert", "fruit"
-  suitableMeals   String[] // ["breakfast", "lunch", "dinner"]
-  source          String   // e.g. "Book Page 29"
-  isFromBook      Boolean  @default(false)
-  sentence        String
-  bookQuestionRef String?
-  svg             String?  @db.Text
-  imageUrl        String?  // Cloudflare R2 uploaded image URL
-  userId          String?
+// ==========================================
+// CURRICULUM HIERARCHY
+// ==========================================
+
+model Book {
+  id          String   @id @default(cuid())
+  slug        String   @unique // e.g. "starters", "movers", "flyers"
+  title       String   // e.g. "Get Ready for Starters"
+  series      String   // "Starters" | "Movers" | "Flyers" | "Custom"
+  level       String   // "Pre-A1", "A1", "A2"
+  targetAge   String   @map("target_age") // "3-8", "8-10", "10-13"
+  description String?  @db.Text
+  coverImage  String?  @map("cover_image")
+  themeColor  String   @default("#ec4899") @map("theme_color")
+  sortOrder   Int      @default(0) @map("sort_order")
+  isPublished Boolean  @default(true) @map("is_published")
+
+  units       Unit[]
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("books")
+}
+
+model Unit {
+  id          String   @id @default(cuid())
+  bookId      String   @map("book_id")
+  book        Book     @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  unitNumber  Int      @map("unit_number") // 1, 2, 3, 4...
+  slug        String   // e.g. "unit-4-food"
+  title       String   // e.g. "Food!"
+  description String?  @db.Text
+  icon        String   @default("BookOpen") // Lucide icon name
+  themeColor  String   @default("#ec4899") @map("theme_color")
+  companion   String   @default("lily") // "lily"
+  sortOrder   Int      @default(0) @map("sort_order")
+  isPublished Boolean  @default(true) @map("is_published")
+
+  vocabularyItems VocabularyItem[]
+  quizQuestions   QuizQuestion[]
+  unitProgress    UnitProgress[]
+
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@unique([bookId, unitNumber])
+  @@unique([bookId, slug])
+  @@index([bookId, sortOrder])
+  @@map("units")
+}
+
+model VocabularyItem {
+  id              String   @id @default(cuid())
+  unitId          String   @map("unit_id")
+  unit            Unit     @relation(fields: [unitId], references: [id], onDelete: Cascade)
+
+  word            String   // Canonical lowercase: "pineapple"
+  displayName     String   @map("display_name") // "Pineapple"
+  phonics         String   // Syllable breakdown: "pine · ap · ple"
+  partOfSpeech    String?  @map("part_of_speech") // "noun", "verb", "adjective"
+  category        String?  // e.g. "fruit", "meal", "clothes", "animal"
+  exampleSentence String   @map("example_sentence") // "I like sweet pineapple."
+  definition      String?  @db.Text // Simple kid definition
+  
+  svg             String?  @db.Text // Vector SVG artwork
+  imageUrl        String?  @map("image_url") // Cloudflare R2 uploaded image
+  audioUrl        String?  @map("audio_url") // Custom audio file (or Web Speech fallback)
+
+  isFromBook      Boolean  @default(true) @map("is_from_book")
+  bookSource      String?  @map("book_source") // e.g. "Page 24", "Part 3"
+  sortOrder       Int      @default(0) @map("sort_order")
+
+  // Flexible unit game attributes (e.g. { suitableMeals: ["breakfast", "dessert"] })
+  gameMetadata    Json?    @map("game_metadata")
+
+  userId          String?  @map("user_id")
   user            User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
 
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  wordProgress    WordProgress[]
+  quizOptions     QuizOption[]
+
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  @@index([unitId, sortOrder])
+  @@map("vocabulary_items")
 }
 
-model UserProgress {
-  id             String   @id @default(cuid())
-  userId         String   @unique
-  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  stars          Int      @default(0)
-  completedMeals String[] // e.g. ["breakfast", "lunch"]
-  quizScore      Int      @default(0)
-  spellingScore  Int      @default(0)
+model QuizQuestion {
+  id              String       @id @default(cuid())
+  unitId          String       @map("unit_id")
+  unit            Unit         @relation(fields: [unitId], references: [id], onDelete: Cascade)
 
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  bookPage        String       @map("book_page") // "Page 29"
+  part            String       // "Listening Part 3"
+  question        String       // "What is Pat's favourite food?"
+  instruction     String?      // "Listen and choose the right plate."
+  audioTranscript String       @map("audio_transcript") @db.Text
+  correctOption   String       @map("correct_option")
+  multiChoice     Boolean      @default(false) @map("multi_choice")
+  explanation     String?      @db.Text
+  sortOrder       Int          @default(0) @map("sort_order")
+
+  options         QuizOption[]
+
+  createdAt       DateTime     @default(now()) @map("created_at")
+  updatedAt       DateTime     @updatedAt @map("updated_at")
+
+  @@index([unitId, sortOrder])
+  @@map("quiz_questions")
 }
 
+model QuizOption {
+  id               String          @id @default(cuid())
+  questionId       String          @map("question_id")
+  question         QuizQuestion    @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  text             String
+  isCorrect        Boolean         @default(false) @map("is_correct")
+  imageLabel       String?         @map("image_label")
+  combo            String[]        @default([])
+
+  vocabularyItemId String?         @map("vocabulary_item_id")
+  vocabularyItem   VocabularyItem? @relation(fields: [vocabularyItemId], references: [id], onDelete: SetNull)
+
+  createdAt        DateTime        @default(now()) @map("created_at")
+  updatedAt        DateTime        @updatedAt @map("updated_at")
+
+  @@map("quiz_options")
+}
+
+model UnitProgress {
+  id                   String    @id @default(cuid())
+  userId               String    @map("user_id")
+  user                 User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  unitId               String    @map("unit_id")
+  unit                 Unit      @relation(fields: [unitId], references: [id], onDelete: Cascade)
+
+  starsEarned          Int       @default(0) @map("stars_earned")
+  isCompleted          Boolean   @default(false) @map("is_completed")
+  learnCompleted       Boolean   @default(false) @map("learn_completed")
+  flashcardsCompleted  Boolean   @default(false) @map("flashcards_completed")
+  gamesCompleted       Boolean   @default(false) @map("games_completed")
+  quizScore            Int       @default(0) @map("quiz_score")
+  completedAt          DateTime? @map("completed_at")
+
+  createdAt            DateTime  @default(now()) @map("created_at")
+  updatedAt            DateTime  @updatedAt @map("updated_at")
+
+  @@unique([userId, unitId])
+  @@map("unit_progress")
+}
+
+model WordProgress {
+  id               String         @id @default(cuid())
+  userId           String         @map("user_id")
+  user             User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  vocabularyItemId String         @map("vocabulary_item_id")
+  vocabularyItem   VocabularyItem @relation(fields: [vocabularyItemId], references: [id], onDelete: Cascade)
+
+  masteryLevel     Int            @default(0) @map("mastery_level") // 0=new, 1=learning, 2=mastered
+  reviewCount      Int            @default(0) @map("review_count")
+  mistakeCount     Int            @default(0) @map("mistake_count")
+  lastReviewedAt   DateTime?      @map("last_reviewed_at")
+
+  createdAt        DateTime       @default(now()) @map("created_at")
+  updatedAt        DateTime       @updatedAt @map("updated_at")
+
+  @@unique([userId, vocabularyItemId])
+  @@index([userId, masteryLevel])
+  @@map("word_progress")
+}
