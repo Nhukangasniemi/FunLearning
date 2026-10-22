@@ -1,0 +1,102 @@
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+model User {
+  id                     String    @id @default(cuid())
+  name                   String?
+  email                  String?   @unique
+  emailVerified          DateTime?
+  image                  String?
+  password               String? // For credentials login
+  isPro                  Boolean   @default(false)
+  stripeCustomerId       String?   @unique
+  stripeSubscriptionId   String?   @unique
+  stripePriceId          String?
+  stripeCurrentPeriodEnd DateTime?
+
+  accounts  Account[]
+  sessions  Session[]
+  foodItems FoodItem[]
+  progress  UserProgress?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([provider, providerAccountId])
+}
+
+model Session {
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@id([identifier, token])
+}
+
+model FoodItem {
+  id              String   @id
+  name            String
+  displayName     String
+  phonics         String
+  category        String // e.g. "meal", "dessert", "fruit"
+  suitableMeals   String[] // ["breakfast", "lunch", "dinner"]
+  source          String // e.g. "Book Page 29"
+  isFromBook      Boolean  @default(false)
+  sentence        String
+  bookQuestionRef String?
+  svg             String?  @db.Text
+  imageUrl        String? // Cloudflare R2 uploaded image URL
+  userId          String?
+  user            User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model UserProgress {
+  id             String   @id @default(cuid())
+  userId         String   @unique
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  stars          Int      @default(0)
+  completedMeals String[] // e.g. ["breakfast", "lunch"]
+  quizScore      Int      @default(0)
+  spellingScore  Int      @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
