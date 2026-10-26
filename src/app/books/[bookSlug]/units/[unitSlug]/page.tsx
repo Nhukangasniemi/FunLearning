@@ -158,7 +158,7 @@ export default function UnitHubPage() {
       />
 
       {/* Top Unit Banner */}
-      <div className="w-full bg-white/80 backdrop-blur-md border-b border-slate-200/80 shadow-2xs">
+      <div className="w-full bg-white/80 backdrop-blur-md border-b border-slate-200/80 shadow-xs">
         <div className="max-w-7xl mx-auto px-4 py-2.5 flex items-center justify-between flex-wrap gap-2">
           <div className="flex items-center gap-3">
             <Button
@@ -195,7 +195,7 @@ export default function UnitHubPage() {
       </div>
 
       {/* 3-Step Navigation Bar */}
-      <div className="w-full bg-gradient-to-r from-pink-50 via-purple-50 to-blue-50 border-b border-pink-100">
+      <div className="w-full bg-linear-to-r from-pink-50 via-purple-50 to-blue-50 border-b border-pink-100">
         <div className="max-w-4xl mx-auto px-4 py-3 flex justify-center gap-2 md:gap-4">
           {[
             {
@@ -242,7 +242,7 @@ export default function UnitHubPage() {
       {/* Main Content Stage */}
       <main className="max-w-7xl mx-auto px-4 py-6 w-full flex-1">
         {/* Companion Bar */}
-        <div className="max-w-4xl mx-auto mb-6 bg-white/90 backdrop-blur-sm p-4 rounded-3xl border border-pink-100 shadow-md flex items-center gap-4">
+        {/* <div className="max-w-4xl mx-auto mb-6 bg-white/90 backdrop-blur-sm p-4 rounded-3xl border border-pink-100 shadow-md flex items-center gap-4">
           <div className="w-20 md:w-24 shrink-0">
             <CharacterLily
               speechText={lilySpeech}
@@ -256,7 +256,7 @@ export default function UnitHubPage() {
               &ldquo;{lilySpeech}&rdquo;
             </p>
           </div>
-        </div>
+        </div> */}
 
         {/* STEP 1: LEARN STUDIO */}
         {activeStep === "learn" && (
@@ -381,7 +381,10 @@ export default function UnitHubPage() {
               )}
 
               {activeGame === "quiz" && hasQuiz && (
-                <QuizGame onEarnStar={handleEarnStar} />
+                <QuizGame
+                  onEarnStar={handleEarnStar}
+                  questions={payload.quizQuestions}
+                />
               )}
             </div>
           </div>
@@ -390,7 +393,7 @@ export default function UnitHubPage() {
 
       {/* Full Day Completion Certificate Dialog */}
       <Dialog open={showCertificate} onOpenChange={setShowCertificate}>
-        <DialogContent className="sm:max-w-[550px] bg-gradient-to-b from-amber-50 to-orange-50 border-4 border-amber-300 rounded-3xl p-8 text-center shadow-2xl">
+        <DialogContent className="sm:max-w-[550px] bg-linear-to-b from-amber-50 to-orange-50 border-4 border-amber-300 rounded-3xl p-8 text-center shadow-2xl">
           <DialogHeader>
             <div className="w-20 h-20 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-3 shadow-inner">
               <Award className="w-12 h-12 text-amber-600" />

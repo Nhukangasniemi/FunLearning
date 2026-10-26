@@ -216,7 +216,7 @@ export const FlashcardEngine: React.FC<FlashcardEngineProps> = ({
         </div>
         <div className="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
           <div
-            className="h-full bg-gradient-to-r from-pink-500 to-purple-600 transition-all duration-300"
+            className="h-full bg-linear-to-r from-pink-500 to-purple-600 transition-all duration-300"
             style={{ width: `${((currentIndex + 1) / currentDeck.length) * 100}%` }}
           />
         </div>
@@ -325,7 +325,7 @@ export const FlashcardEngine: React.FC<FlashcardEngineProps> = ({
             </Card>
 
             {/* BACK OF CARD */}
-            <Card className="absolute inset-0 w-full h-full backface-hidden rotate-y-180 bg-gradient-to-br from-pink-50 to-purple-50 rounded-3xl p-6 flex flex-col justify-between border-2 border-purple-300 shadow-xl">
+            <Card className="absolute inset-0 w-full h-full backface-hidden rotate-y-180 bg-linear-to-br from-pink-50 to-purple-50 rounded-3xl p-6 flex flex-col justify-between border-2 border-purple-300 shadow-xl">
               <div className="flex justify-between items-center">
                 <Badge className="bg-purple-600 text-white text-xs">
                   {currentItem.partOfSpeech || "Word Meaning"}

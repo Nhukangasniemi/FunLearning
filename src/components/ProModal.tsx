@@ -83,7 +83,7 @@ export const ProModal: React.FC<ProModalProps> = ({ isOpen, onClose, isPro = fal
             },
           ].map((item, idx) => (
             <div key={idx} className="flex items-start gap-3">
-              <div className="p-1.5 rounded-lg bg-white border border-slate-200 shadow-2xs shrink-0">{item.icon}</div>
+              <div className="p-1.5 rounded-lg bg-white border border-slate-200 shadow-xs shrink-0">{item.icon}</div>
               <div>
                 <h4 className="text-xs font-bold text-slate-900">{item.title}</h4>
                 <p className="text-[11px] text-slate-600 font-medium">{item.desc}</p>

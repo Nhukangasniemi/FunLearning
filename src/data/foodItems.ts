@@ -467,6 +467,319 @@ export const FOOD_ITEMS: FoodItemType[] = [
       <path d="M56 30 Q60 22 56 16" stroke="#B0BEC5" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.7"/>
     </svg>`
   },
+  {
+    "id": "shrimp",
+    "name": "shrimp",
+    "displayName": "Shrimp",
+    "phonics": "shrimp",
+    "category": "meal",
+    "suitableMeals": [
+      "lunch",
+      "dinner"
+    ],
+    "source": "Book Page 26 (Unit 4 Meals & Mains)",
+    "isFromBook": true,
+    "sentence": "Sweet pink shrimp are delicious with rice and noodles for dinner!",
+    "bookQuestionRef": "What would you like for lunch? Some shrimp, please!",
+    "svg": `<svg viewBox="0 0 100 100" class="food-svg">
+      <defs>
+        <radialGradient id="shrimpGrad" cx="40%" cy="35%" r="65%">
+          <stop offset="0%" stop-color="#FFCCBC"/>
+          <stop offset="55%" stop-color="#FF7043"/>
+          <stop offset="100%" stop-color="#D84315"/>
+        </radialGradient>
+      </defs>
+      <ellipse cx="50" cy="84" rx="42" ry="7" fill="rgba(0,0,0,0.12)"/>
+      <ellipse cx="50" cy="70" rx="44" ry="16" fill="#FFFFFF" stroke="#CFD8DC" stroke-width="2"/>
+      <ellipse cx="50" cy="70" rx="35" ry="11" fill="#F8FAFC"/>
+      <path d="M24 58 C18 40, 34 26, 52 32 C64 36, 66 50, 56 58 C48 64, 38 60, 42 52 C44 48, 38 44, 32 48 C28 51, 28 58, 24 58 Z" fill="url(#shrimpGrad)" stroke="#BF360C" stroke-width="1.6"/>
+      <polygon points="24,58 14,52 16,60 12,66 22,64" fill="#E64A19" stroke="#BF360C" stroke-width="1.2"/>
+      <path d="M36 32 Q38 40 35 46 M46 32 Q46 42 41 48 M54 38 Q50 45 45 50" stroke="#FFF3E0" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.75"/>
+      <circle cx="54" cy="38" r="2" fill="#212121"/>
+      <path d="M44 68 C40 52, 56 40, 72 46 C82 50, 84 62, 74 70 C66 75, 56 72, 60 64 C62 60, 56 56, 50 60 C46 63, 46 68, 44 68 Z" fill="url(#shrimpGrad)" stroke="#BF360C" stroke-width="1.6"/>
+      <polygon points="44,68 34,63 36,70 32,76 42,74" fill="#E64A19" stroke="#BF360C" stroke-width="1.2"/>
+      <path d="M56 46 Q58 54 55 60 M66 46 Q66 56 61 62 M74 52 Q70 59 65 64" stroke="#FFF3E0" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.75"/>
+      <circle cx="74" cy="52" r="2" fill="#212121"/>
+      <circle cx="28" cy="70" r="4" fill="#66BB6A"/>
+      <circle cx="33" cy="72" r="3" fill="#43A047"/>
+    </svg>`
+  },
+  {
+    "id": "cheese",
+    "name": "cheese",
+    "displayName": "Cheese",
+    "phonics": "cheese",
+    "category": "meal",
+    "suitableMeals": [
+      "breakfast",
+      "lunch",
+      "dinner"
+    ],
+    "source": "Book Page 25 & 26 (Unit 4 Food)",
+    "isFromBook": true,
+    "sentence": "A big golden wedge of cheese is tasty on warm bread and pizza!",
+    "bookQuestionRef": "Do you like cheese for breakfast or lunch?",
+    "svg": `<svg viewBox="0 0 100 100" class="food-svg">
+      <defs>
+        <linearGradient id="cheeseTop" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#FFF59D"/>
+          <stop offset="100%" stop-color="#FDD835"/>
+        </linearGradient>
+        <linearGradient id="cheeseSide" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#FBC02D"/>
+          <stop offset="100%" stop-color="#F57F17"/>
+        </linearGradient>
+      </defs>
+      <ellipse cx="50" cy="84" rx="40" ry="7" fill="rgba(0,0,0,0.14)"/>
+      <path d="M18 52 L66 26 C78 32, 84 42, 82 52 Z" fill="url(#cheeseTop)" stroke="#F57F17" stroke-width="1.8" stroke-linejoin="round"/>
+      <path d="M18 52 L82 52 L82 74 C82 76, 18 76, 18 74 Z" fill="url(#cheeseSide)" stroke="#E65100" stroke-width="1.8" stroke-linejoin="round"/>
+      <circle cx="36" cy="63" r="5.5" fill="#F57F17" stroke="#E65100" stroke-width="1"/>
+      <circle cx="56" cy="60" r="4" fill="#F57F17" stroke="#E65100" stroke-width="1"/>
+      <circle cx="70" cy="66" r="5" fill="#F57F17" stroke="#E65100" stroke-width="1"/>
+      <circle cx="48" cy="69" r="3" fill="#F57F17" stroke="#E65100" stroke-width="1"/>
+      <ellipse cx="52" cy="42" rx="5" ry="3" fill="#FBC02D" stroke="#F57F17" stroke-width="1"/>
+      <ellipse cx="66" cy="45" rx="4" ry="2.5" fill="#FBC02D" stroke="#F57F17" stroke-width="1"/>
+      <line x1="22" y1="55" x2="44" y2="55" stroke="#FFF9C4" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
+    </svg>`
+  },
+  {
+    "id": "soy-sauce",
+    "name": "soy sauce",
+    "displayName": "Soy Sauce",
+    "phonics": "soy · sauce",
+    "category": "meal",
+    "suitableMeals": [
+      "lunch",
+      "dinner"
+    ],
+    "source": "Book Unit 4 Condiments & Sauces",
+    "isFromBook": true,
+    "sentence": "A splash of savoury dark soy sauce makes rice and fish taste amazing!",
+    "bookQuestionRef": "Would you like some soy sauce with your rice?",
+    "svg": `<svg viewBox="0 0 100 100" class="food-svg">
+      <defs>
+        <linearGradient id="soyBottle" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#4E342E"/>
+          <stop offset="40%" stop-color="#3E2723"/>
+          <stop offset="100%" stop-color="#1B0F0D"/>
+        </linearGradient>
+      </defs>
+      <ellipse cx="50" cy="85" rx="38" ry="7" fill="rgba(0,0,0,0.14)"/>
+      <path d="M26 42 C26 34, 32 30, 34 24 L42 24 C44 30, 50 34, 50 42 L52 78 C52 82, 24 82, 24 78 Z" fill="url(#soyBottle)" stroke="#271815" stroke-width="1.8"/>
+      <path d="M31 16 L45 16 L43 24 L33 24 Z" fill="#E53935" stroke="#B71C1C" stroke-width="1.5"/>
+      <path d="M44 19 Q50 18 52 21" stroke="#E53935" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+      <rect x="28" y="48" width="20" height="20" rx="3" fill="#FFF8E1" stroke="#D7CCC8" stroke-width="1.2"/>
+      <circle cx="38" cy="58" r="5" fill="#E53935"/>
+      <path d="M35 58 Q38 54 41 58 Q38 62 35 58 Z" fill="#8BC34A"/>
+      <path d="M30 36 L30 74" stroke="#8D6E63" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+      <path d="M56 68 Q70 72 84 68 L80 80 Q70 83 60 80 Z" fill="#FFFFFF" stroke="#B0BEC5" stroke-width="1.8"/>
+      <ellipse cx="70" cy="68" rx="14" ry="5" fill="#ECEFF1" stroke="#B0BEC5" stroke-width="1.5"/>
+      <ellipse cx="70" cy="69" rx="11" ry="3.5" fill="#271815"/>
+      <ellipse cx="67" cy="68.5" rx="4" ry="1" fill="#8D6E63" opacity="0.6"/>
+    </svg>`
+  },
+  {
+    "id": "fish-sauce",
+    "name": "fish sauce",
+    "displayName": "Fish Sauce",
+    "phonics": "fish · sauce",
+    "category": "meal",
+    "suitableMeals": [
+      "lunch",
+      "dinner"
+    ],
+    "source": "Book Unit 4 Condiments & Sauces",
+    "isFromBook": true,
+    "sentence": "Golden amber fish sauce with a little lime is full of delicious flavour!",
+    "bookQuestionRef": "What sauce goes with rice and shrimp? Fish sauce!",
+    "svg": `<svg viewBox="0 0 100 100" class="food-svg">
+      <defs>
+        <linearGradient id="fishSauceGrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#FFB300"/>
+          <stop offset="50%" stop-color="#E65100"/>
+          <stop offset="100%" stop-color="#BF360C"/>
+        </linearGradient>
+      </defs>
+      <ellipse cx="50" cy="85" rx="38" ry="7" fill="rgba(0,0,0,0.14)"/>
+      <path d="M34 22 L42 22 L43 34 C48 38, 52 44, 52 52 L52 78 C52 82, 24 82, 24 78 L24 52 C24 44, 28 38, 33 34 Z" fill="#E1F5FE" stroke="#90CAF9" stroke-width="1.5"/>
+      <path d="M25 46 L51 46 L51 78 C51 81, 25 81, 25 78 Z" fill="url(#fishSauceGrad)"/>
+      <rect x="33" y="15" width="10" height="7" rx="2" fill="#29B6F6" stroke="#0288D1" stroke-width="1.5"/>
+      <rect x="27" y="52" width="22" height="18" rx="2.5" fill="#FFFFFF" stroke="#FFB300" stroke-width="1.2"/>
+      <path d="M32 61 C35 57, 41 57, 44 61 C41 65, 35 65, 32 61 Z" fill="#0288D1"/>
+      <polygon points="43,61 47,58 46,61 47,64" fill="#0288D1"/>
+      <path d="M28 40 L28 74" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" opacity="0.65"/>
+      <path d="M56 68 Q70 72 84 68 L80 80 Q70 83 60 80 Z" fill="#FFFFFF" stroke="#B0BEC5" stroke-width="1.8"/>
+      <ellipse cx="70" cy="68" rx="14" ry="5" fill="#FFF8E1" stroke="#B0BEC5" stroke-width="1.5"/>
+      <ellipse cx="70" cy="69" rx="11" ry="3.5" fill="#E65100"/>
+      <circle cx="67" cy="69" r="1.8" fill="#D50000"/>
+      <circle cx="73" cy="68.5" r="1.5" fill="#D50000"/>
+      <circle cx="70" cy="70" r="1.2" fill="#FFF9C4"/>
+    </svg>`
+  },
+  {
+    "id": "tomato-sauce",
+    "name": "tomato sauce",
+    "displayName": "Tomato Sauce",
+    "phonics": "to · ma · to · sauce",
+    "category": "meal",
+    "suitableMeals": [
+      "breakfast",
+      "lunch",
+      "dinner"
+    ],
+    "source": "Book Page 26 & 28 (Unit 4 Meals)",
+    "isFromBook": true,
+    "sentence": "Sweet red tomato sauce is yummy with crispy chips, burgers, and spaghetti!",
+    "bookQuestionRef": "Would you like some tomato sauce with your chips?",
+    "svg": `<svg viewBox="0 0 100 100" class="food-svg">
+      <defs>
+        <linearGradient id="tomSauceGrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#FF5252"/>
+          <stop offset="50%" stop-color="#E53935"/>
+          <stop offset="100%" stop-color="#B71C1C"/>
+        </linearGradient>
+      </defs>
+      <ellipse cx="50" cy="85" rx="38" ry="7" fill="rgba(0,0,0,0.14)"/>
+      <path d="M32 22 L44 22 L45 34 C50 39, 54 45, 54 54 L54 78 C54 82, 22 82, 22 78 L22 54 C22 45, 26 39, 31 34 Z" fill="url(#tomSauceGrad)" stroke="#B71C1C" stroke-width="1.8"/>
+      <rect x="31" y="15" width="14" height="7" rx="2.5" fill="#43A047" stroke="#2E7D32" stroke-width="1.5"/>
+      <rect x="26" y="48" width="24" height="22" rx="3" fill="#FFFFFF" stroke="#E0E0E0" stroke-width="1.2"/>
+      <circle cx="38" cy="60" r="6" fill="#E53935"/>
+      <path d="M36 54 L38 51 L40 54" stroke="#2E7D32" stroke-width="1.5" fill="none"/>
+      <path d="M26 38 L26 74" stroke="#FFCDD2" stroke-width="2.5" stroke-linecap="round" opacity="0.65"/>
+      <path d="M58 68 Q72 72 86 68 L82 80 Q72 83 62 80 Z" fill="#FFFFFF" stroke="#B0BEC5" stroke-width="1.8"/>
+      <ellipse cx="72" cy="68" rx="14" ry="5" fill="#ECEFF1" stroke="#B0BEC5" stroke-width="1.5"/>
+      <ellipse cx="72" cy="69" rx="11" ry="3.8" fill="#D32F2F"/>
+      <path d="M68 68.5 Q72 67 76 68.5" stroke="#FF8A80" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+    </svg>`
+  },
+  {
+    "id": "pizza",
+    "name": "pizza",
+    "displayName": "Pizza",
+    "phonics": "piz · za",
+    "category": "meal",
+    "suitableMeals": [
+      "lunch",
+      "dinner"
+    ],
+    "source": "Book Page 26 & 29 (Unit 4 Meals)",
+    "isFromBook": true,
+    "sentence": "Hot cheesy pizza with tomato sauce and pepperoni is fun to share!",
+    "bookQuestionRef": "What's your favourite dinner? Hot cheesy pizza!",
+    "svg": `<svg viewBox="0 0 100 100" class="food-svg">
+      <defs>
+        <radialGradient id="pzCrust" cx="50%" cy="50%" r="50%">
+          <stop offset="70%" stop-color="#FFE082"/>
+          <stop offset="90%" stop-color="#FFA000"/>
+          <stop offset="100%" stop-color="#E65100"/>
+        </radialGradient>
+        <radialGradient id="pzCheese" cx="45%" cy="45%" r="55%">
+          <stop offset="0%" stop-color="#FFF9C4"/>
+          <stop offset="75%" stop-color="#FFEE58"/>
+          <stop offset="100%" stop-color="#FBC02D"/>
+        </radialGradient>
+      </defs>
+      <ellipse cx="50" cy="86" rx="38" ry="6" fill="rgba(0,0,0,0.14)"/>
+      <circle cx="50" cy="52" r="36" fill="url(#pzCrust)" stroke="#D84315" stroke-width="2"/>
+      <circle cx="50" cy="52" r="30" fill="#D32F2F"/>
+      <circle cx="50" cy="52" r="28" fill="url(#pzCheese)"/>
+      <line x1="50" y1="16" x2="50" y2="88" stroke="#F57F17" stroke-width="1.2" opacity="0.5"/>
+      <line x1="14" y1="52" x2="86" y2="52" stroke="#F57F17" stroke-width="1.2" opacity="0.5"/>
+      <line x1="25" y1="27" x2="75" y2="77" stroke="#F57F17" stroke-width="1.2" opacity="0.5"/>
+      <line x1="75" y1="27" x2="25" y2="77" stroke="#F57F17" stroke-width="1.2" opacity="0.5"/>
+      <circle cx="38" cy="38" r="5.5" fill="#C62828" stroke="#8E0000" stroke-width="1"/>
+      <circle cx="62" cy="38" r="5.5" fill="#C62828" stroke="#8E0000" stroke-width="1"/>
+      <circle cx="36" cy="60" r="5.5" fill="#C62828" stroke="#8E0000" stroke-width="1"/>
+      <circle cx="62" cy="62" r="5.5" fill="#C62828" stroke="#8E0000" stroke-width="1"/>
+      <circle cx="50" cy="48" r="5" fill="#C62828" stroke="#8E0000" stroke-width="1"/>
+      <circle cx="48" cy="32" r="2.5" fill="#388E3C"/>
+      <circle cx="30" cy="48" r="2.5" fill="#388E3C"/>
+      <circle cx="68" cy="50" r="2.5" fill="#388E3C"/>
+      <circle cx="50" cy="68" r="2.5" fill="#388E3C"/>
+      <circle cx="44" cy="56" r="2.2" fill="#212121"/>
+      <circle cx="56" cy="42" r="2.2" fill="#212121"/>
+    </svg>`
+  },
+  {
+    "id": "spaghetti",
+    "name": "spaghetti",
+    "displayName": "Spaghetti",
+    "phonics": "spa · ghet · ti",
+    "category": "meal",
+    "suitableMeals": [
+      "lunch",
+      "dinner"
+    ],
+    "source": "Book Page 28 (Unit 4 Meals)",
+    "isFromBook": true,
+    "sentence": "Twirl the long yellow spaghetti noodles with rich red tomato sauce on your fork!",
+    "bookQuestionRef": "What's for dinner tonight? Spaghetti and tomato sauce!",
+    "svg": `<svg viewBox="0 0 100 100" class="food-svg">
+      <defs>
+        <radialGradient id="spagPass" cx="50%" cy="40%" r="60%">
+          <stop offset="0%" stop-color="#FFF59D"/>
+          <stop offset="70%" stop-color="#FFD54F"/>
+          <stop offset="100%" stop-color="#FFA000"/>
+        </radialGradient>
+        <radialGradient id="spagSauce" cx="45%" cy="40%" r="55%">
+          <stop offset="0%" stop-color="#FF5252"/>
+          <stop offset="65%" stop-color="#D32F2F"/>
+          <stop offset="100%" stop-color="#B71C1C"/>
+        </radialGradient>
+      </defs>
+      <ellipse cx="50" cy="84" rx="42" ry="7" fill="rgba(0,0,0,0.14)"/>
+      <ellipse cx="50" cy="72" rx="44" ry="15" fill="#FFFFFF" stroke="#CFD8DC" stroke-width="2"/>
+      <ellipse cx="50" cy="72" rx="35" ry="11" fill="#F8FAFC"/>
+      <path d="M20 68 C18 46, 34 36, 50 36 C66 36, 82 46, 80 68 C74 76, 26 76, 20 68 Z" fill="url(#spagPass)" stroke="#F57F17" stroke-width="1.5"/>
+      <path d="M24 62 Q36 48 52 58 Q66 66 76 56 M26 68 Q42 56 58 66 Q70 72 78 64 M30 52 Q48 40 68 50" stroke="#F57F17" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M28 58 Q44 46 62 56 Q72 62 76 54" stroke="#FFF9C4" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M32 48 C30 38, 44 34, 54 36 C66 34, 72 42, 66 50 C62 56, 48 58, 38 54 C32 52, 32 50, 32 48 Z" fill="url(#spagSauce)"/>
+      <circle cx="44" cy="44" r="6" fill="#6D4C41" stroke="#3E2723" stroke-width="1.2"/>
+      <circle cx="58" cy="46" r="6" fill="#6D4C41" stroke="#3E2723" stroke-width="1.2"/>
+      <path d="M48 36 C46 30, 54 28, 56 34 C54 37, 50 37, 48 36 Z" fill="#43A047" stroke="#1B5E20" stroke-width="1"/>
+      <path d="M44 24 Q47 16 44 10" stroke="#B0BEC5" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.7"/>
+      <path d="M56 22 Q59 14 56 8" stroke="#B0BEC5" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.7"/>
+    </svg>`
+  },
+  {
+    "id": "duck",
+    "name": "duck",
+    "displayName": "Duck",
+    "phonics": "duck",
+    "category": "meal",
+    "suitableMeals": [
+      "lunch",
+      "dinner"
+    ],
+    "source": "Book Unit 4 Meals & Mains",
+    "isFromBook": true,
+    "sentence": "Crispy golden roast duck on a platter is a wonderful dinner treat!",
+    "bookQuestionRef": "What roast dish is on the dinner table? Roast duck!",
+    "svg": `<svg viewBox="0 0 100 100" class="food-svg">
+      <defs>
+        <radialGradient id="duckGlaze" cx="38%" cy="32%" r="65%">
+          <stop offset="0%" stop-color="#FFCC80"/>
+          <stop offset="45%" stop-color="#D84315"/>
+          <stop offset="85%" stop-color="#8D3B12"/>
+          <stop offset="100%" stop-color="#4E260E"/>
+        </radialGradient>
+      </defs>
+      <ellipse cx="50" cy="84" rx="42" ry="7" fill="rgba(0,0,0,0.14)"/>
+      <ellipse cx="50" cy="70" rx="44" ry="15" fill="#FFFFFF" stroke="#B0BEC5" stroke-width="2"/>
+      <ellipse cx="50" cy="70" rx="35" ry="11" fill="#F8FAFC"/>
+      <circle cx="24" cy="66" r="4.5" fill="#66BB6A"/>
+      <circle cx="30" cy="71" r="4" fill="#43A047"/>
+      <circle cx="74" cy="68" r="4" fill="#66BB6A"/>
+      <path d="M24 60 C20 42, 34 28, 54 30 C72 32, 80 46, 76 62 C73 70, 58 72, 48 72 C36 72, 26 68, 24 60 Z" fill="url(#duckGlaze)" stroke="#3E2723" stroke-width="1.8"/>
+      <path d="M58 52 C66 46, 78 44, 84 36" stroke="#FFF8E1" stroke-width="5.5" stroke-linecap="round"/>
+      <circle cx="85" cy="34" r="3.5" fill="#FFF8E1"/>
+      <circle cx="88" cy="38" r="3.5" fill="#FFF8E1"/>
+      <path d="M36 46 C44 40, 58 42, 64 52 C58 60, 42 60, 36 46 Z" fill="#BF360C" stroke="#4E260E" stroke-width="1.2"/>
+      <path d="M36 38 Q48 34 58 38" stroke="#FFE0B2" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.65"/>
+      <path d="M42 22 Q45 14 42 8" stroke="#B0BEC5" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.7"/>
+      <path d="M54 20 Q57 12 54 6" stroke="#B0BEC5" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.7"/>
+    </svg>`
+  },
 
   // --- Lesson 4 / Unit 4 Vegetables & Staples (Page 25 & 26) ---
   {

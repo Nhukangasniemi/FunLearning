@@ -27,37 +27,55 @@ export async function getBooksAction(): Promise<ActionResponse<BookType[]>> {
         units: {
           where: { isPublished: true },
           orderBy: { sortOrder: "asc" },
+          include: {
+            _count: {
+              select: { vocabularyItems: true, quizQuestions: true },
+            },
+          },
         },
       },
     });
 
     if (dbBooks && dbBooks.length > 0) {
-      const mappedBooks: BookType[] = dbBooks.map((b) => ({
-        id: b.id,
-        slug: b.slug,
-        title: b.title,
-        series: b.series,
-        level: b.level,
-        targetAge: b.targetAge,
-        description: b.description,
-        coverImage: b.coverImage,
-        themeColor: b.themeColor,
-        sortOrder: b.sortOrder,
-        isPublished: b.isPublished,
-        units: b.units.map((u) => ({
-          id: u.id,
-          bookId: u.bookId,
-          unitNumber: u.unitNumber,
-          slug: u.slug,
-          title: u.title,
-          description: u.description,
-          icon: u.icon,
-          themeColor: u.themeColor,
-          companion: u.companion,
-          sortOrder: u.sortOrder,
-          isPublished: u.isPublished,
-        })),
-      }));
+      const mappedBooks: BookType[] = dbBooks.map((b) => {
+        const totalWords = b.units.reduce(
+          (acc, u) => acc + (u._count?.vocabularyItems || 0),
+          0
+        );
+        const totalQuizzes = b.units.reduce(
+          (acc, u) => acc + (u._count?.quizQuestions || 0),
+          0
+        );
+
+        return {
+          id: b.id,
+          slug: b.slug,
+          title: b.title,
+          series: b.series,
+          level: b.level,
+          targetAge: b.targetAge,
+          description: b.description,
+          coverImage: b.coverImage,
+          themeColor: b.themeColor,
+          sortOrder: b.sortOrder,
+          isPublished: b.isPublished,
+          totalWords,
+          totalQuizzes,
+          units: b.units.map((u) => ({
+            id: u.id,
+            bookId: u.bookId,
+            unitNumber: u.unitNumber,
+            slug: u.slug,
+            title: u.title,
+            description: u.description,
+            icon: u.icon,
+            themeColor: u.themeColor,
+            companion: u.companion,
+            sortOrder: u.sortOrder,
+            isPublished: u.isPublished,
+          })),
+        };
+      });
 
       return { success: true, data: mappedBooks };
     }
@@ -77,11 +95,16 @@ export async function getBookUnitsAction(
 ): Promise<ActionResponse<{ book: BookType; units: UnitType[] }>> {
   try {
     const dbBook = await prisma.book.findUnique({
-      where: { slug: bookSlug },
+      where: { slug: bookSlug.toLowerCase() },
       include: {
         units: {
           where: { isPublished: true },
           orderBy: { sortOrder: "asc" },
+          include: {
+            _count: {
+              select: { vocabularyItems: true, quizQuestions: true },
+            },
+          },
         },
       },
     });
@@ -113,6 +136,8 @@ export async function getBookUnitsAction(
         companion: u.companion,
         sortOrder: u.sortOrder,
         isPublished: u.isPublished,
+        wordCount: u._count?.vocabularyItems || 0,
+        quizCount: u._count?.quizQuestions || 0,
       }));
 
       return { success: true, data: { book: bookData, units: unitsData } };
@@ -140,13 +165,18 @@ export async function getUnitPayloadAction(
   unitSlug: string
 ): Promise<ActionResponse<FullUnitPayload>> {
   try {
-    const session = await auth();
-    const userId = session?.user?.id;
+    let userId: string | undefined = undefined;
+    try {
+      const session = await auth();
+      userId = session?.user?.id;
+    } catch {
+      // Guest or executed outside active request store
+    }
 
     const dbUnit = await prisma.unit.findFirst({
       where: {
-        slug: unitSlug,
-        book: { slug: bookSlug },
+        slug: unitSlug.toLowerCase(),
+        book: { slug: bookSlug.toLowerCase() },
       },
       include: {
         book: true,

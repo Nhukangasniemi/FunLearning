@@ -185,7 +185,7 @@ export const MemoryMatchEngine: React.FC<MemoryMatchEngineProps> = ({ items, onE
                     ? "bg-emerald-50 border-2 border-emerald-400 opacity-80 scale-95 shadow-xs"
                     : showFace
                     ? "bg-white border-2 border-purple-400 shadow-md scale-100"
-                    : "bg-gradient-to-br from-indigo-500 to-purple-600 border-2 border-indigo-400 shadow-sm hover:scale-102 hover:shadow-md cursor-pointer text-white"
+                    : "bg-linear-to-br from-indigo-500 to-purple-600 border-2 border-indigo-400 shadow-sm hover:scale-102 hover:shadow-md cursor-pointer text-white"
                 }`}
               >
                 {showFace ? (

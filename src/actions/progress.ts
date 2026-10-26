@@ -28,8 +28,13 @@ export async function saveUnitProgressAction(
   rawInput: z.infer<typeof saveUnitProgressSchema>
 ): Promise<ActionResponse<{ starsTotal: number }>> {
   try {
-    const session = await auth();
-    const userId = session?.user?.id;
+    let userId: string | undefined = undefined;
+    try {
+      const session = await auth();
+      userId = session?.user?.id;
+    } catch {
+      // Guest mode
+    }
     const validated = saveUnitProgressSchema.parse(rawInput);
 
     if (!userId) {
@@ -113,8 +118,13 @@ export async function updateWordMasteryAction(
   rawInput: z.infer<typeof updateWordMasterySchema>
 ): Promise<ActionResponse<{ masteryLevel: number }>> {
   try {
-    const session = await auth();
-    const userId = session?.user?.id;
+    let userId: string | undefined = undefined;
+    try {
+      const session = await auth();
+      userId = session?.user?.id;
+    } catch {
+      // Guest
+    }
     const validated = updateWordMasterySchema.parse(rawInput);
 
     if (!userId) {
@@ -175,8 +185,13 @@ export async function getSmartReviewWordsAction(): Promise<
   ActionResponse<{ words: VocabularyItemType[]; progressMap: Record<string, WordProgressType> }>
 > {
   try {
-    const session = await auth();
-    const userId = session?.user?.id;
+    let userId: string | undefined = undefined;
+    try {
+      const session = await auth();
+      userId = session?.user?.id;
+    } catch {
+      // Guest
+    }
 
     if (userId) {
       const dbWordProgress = await prisma.wordProgress.findMany({

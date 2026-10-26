@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { QuizQuestionType } from "@/types";
 import { BOOK_QUIZ_QUESTIONS } from "@/data/quizQuestions";
 import { SPELLING_PUZZLES } from "@/data/spellingPuzzles";
 import { FOOD_ITEMS } from "@/data/foodItems";
@@ -12,9 +13,10 @@ import { Badge } from "@/components/ui/badge";
 
 interface QuizGameProps {
   onEarnStar: () => void;
+  questions?: QuizQuestionType[];
 }
 
-export const QuizGame: React.FC<QuizGameProps> = ({ onEarnStar }) => {
+export const QuizGame: React.FC<QuizGameProps> = ({ onEarnStar, questions }) => {
   const [activeTab, setActiveTab] = useState<"book" | "spelling" | "riddle">("book");
 
   // Book Quiz State
@@ -32,7 +34,8 @@ export const QuizGame: React.FC<QuizGameProps> = ({ onEarnStar }) => {
   const [currentRiddle, setCurrentRiddle] = useState<{ riddle: string; hint: string } | null>(null);
   const [loadingRiddle, setLoadingRiddle] = useState(false);
 
-  const currentQ = BOOK_QUIZ_QUESTIONS[currentQIndex];
+  const questionsList = questions && questions.length > 0 ? questions : BOOK_QUIZ_QUESTIONS;
+  const currentQ = questionsList[currentQIndex % questionsList.length];
   const currentSpelling = SPELLING_PUZZLES[spellingIndex];
 
   // --- Handlers for Book Quiz ---
@@ -82,7 +85,7 @@ export const QuizGame: React.FC<QuizGameProps> = ({ onEarnStar }) => {
     setIsAnswerChecked(false);
     setSelectedOption(null);
     setSelectedMulti([]);
-    setCurrentQIndex((prev) => (prev + 1) % BOOK_QUIZ_QUESTIONS.length);
+    setCurrentQIndex((prev) => (prev + 1) % questionsList.length);
   };
 
   // --- Handlers for Spelling Challenge ---
@@ -236,7 +239,7 @@ export const QuizGame: React.FC<QuizGameProps> = ({ onEarnStar }) => {
                   onClick={() => handleSelectOption(opt.id)}
                   className={`p-4 cursor-pointer transition-all duration-200 flex flex-col items-center select-none relative bg-white ${
                     isSelected
-                      ? "border-blue-500 bg-blue-50/70 shadow-md ring-2 ring-blue-300 scale-[1.02]"
+                      ? "border-blue-500 bg-blue-50/70 shadow-md ring-2 ring-blue-300 scale-102"
                       : "border-slate-200 hover:border-slate-300 hover:bg-slate-50/80 shadow-xs"
                   }`}
                 >

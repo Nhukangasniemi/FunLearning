@@ -9,20 +9,20 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-purple-600 text-white shadow-md hover:bg-purple-500 hover:scale-[1.02] active:scale-98",
+          "bg-purple-600 text-white shadow-md hover:bg-purple-500 hover:scale-102 active:scale-98",
         destructive:
-          "bg-rose-500 text-white shadow-md hover:bg-rose-600 hover:scale-[1.02] active:scale-98",
+          "bg-rose-500 text-white shadow-md hover:bg-rose-600 hover:scale-102 active:scale-98",
         outline:
           "border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 hover:text-slate-900 shadow-sm",
         secondary:
           "bg-slate-100 text-slate-800 hover:bg-slate-200 hover:text-slate-900",
         ghost: "hover:bg-slate-100 text-slate-600 hover:text-slate-900",
         link: "text-purple-600 underline-offset-4 hover:underline",
-        pro: "bg-gradient-to-r from-purple-600 to-rose-500 text-white shadow-lg shadow-purple-500/20 hover:from-purple-500 hover:to-rose-400 hover:scale-[1.02] active:scale-98",
+        pro: "bg-linear-to-r from-purple-600 to-rose-500 text-white shadow-lg shadow-purple-500/20 hover:from-purple-500 hover:to-rose-400 hover:scale-102 active:scale-98",
         candy:
-          "bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-md hover:from-emerald-400 hover:to-teal-500 hover:scale-[1.02] active:scale-98",
+          "bg-linear-to-r from-emerald-500 to-teal-600 text-white shadow-md hover:from-emerald-400 hover:to-teal-500 hover:scale-102 active:scale-98",
         amber:
-          "bg-amber-400 text-amber-950 font-black shadow-md hover:bg-amber-300 hover:scale-[1.02] active:scale-98",
+          "bg-amber-400 text-amber-950 font-black shadow-md hover:bg-amber-300 hover:scale-102 active:scale-98",
       },
       size: {
         default: "h-11 px-5 py-2.5",

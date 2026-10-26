@@ -115,16 +115,27 @@ export default function BookRoadmapPage() {
 
       <main className="max-w-6xl mx-auto px-4 py-6 w-full flex-1">
         {/* Navigation Bar */}
-        <div className="flex items-center justify-between mb-6">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => router.push("/")}
-            className="text-slate-600 hover:text-slate-900 font-bold"
-          >
-            <ChevronLeft className="w-4 h-4 mr-1" />
-            Back to Home
-          </Button>
+        <div className="flex items-center justify-between mb-6 flex-wrap gap-2">
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => router.push("/dashboard")}
+              className="text-berry-primary border-pink-200 hover:bg-pink-50 font-bold rounded-full"
+            >
+              <BookOpen className="w-4 h-4 mr-1.5" />
+              All 3 Books
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => router.push("/")}
+              className="text-slate-600 hover:text-slate-900 font-bold rounded-full"
+            >
+              <ChevronLeft className="w-4 h-4 mr-1" />
+              Feed & Play
+            </Button>
+          </div>
 
           <Badge className="bg-pink-100 text-pink-700 border-pink-300 text-xs font-bold px-3 py-1">
             Cambridge Pathway • {book?.level || "Pre-A1"}
@@ -132,7 +143,7 @@ export default function BookRoadmapPage() {
         </div>
 
         {/* Hero Section with Companion Lily */}
-        <Card className="p-6 md:p-8 rounded-3xl bg-gradient-to-r from-pink-100/90 via-purple-100/70 to-indigo-100/90 border-2 border-pink-200/80 shadow-xl mb-8">
+        <Card className="p-6 md:p-8 rounded-3xl bg-linear-to-r from-pink-100/90 via-purple-100/70 to-indigo-100/90 border-2 border-pink-200/80 shadow-xl mb-8">
           <div className="flex flex-col md:flex-row items-center gap-6">
             <div className="w-28 md:w-36 shrink-0">
               <CharacterLily
@@ -181,14 +192,15 @@ export default function BookRoadmapPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {units.map((unit) => {
             const iconComponent = ICON_MAP[unit.icon] || <BookOpen className="w-6 h-6" />;
-            const isLiveMVP = unit.slug === "unit-4-food";
+            const wordCount = unit.wordCount ?? 0;
+            const isPlayable = wordCount > 0;
 
             return (
               <Card
                 key={unit.id}
                 onClick={() => handleSelectUnit(unit)}
                 className={`p-6 rounded-3xl border-2 transition-all duration-300 cursor-pointer flex flex-col justify-between hover:scale-102 hover:shadow-xl ${
-                  isLiveMVP
+                  isPlayable
                     ? "border-pink-400 bg-white shadow-lg ring-2 ring-pink-300/50"
                     : "border-slate-200/80 bg-white/95 hover:border-purple-300 shadow-md"
                 }`}
@@ -203,14 +215,20 @@ export default function BookRoadmapPage() {
                     </div>
 
                     <div className="flex items-center gap-1.5">
-                      {isLiveMVP && (
+                      {isPlayable ? (
                         <Badge className="bg-pink-600 text-white font-black text-[10px] uppercase">
-                          ★ Live Game
+                          ★ {wordCount} Words
+                        </Badge>
+                      ) : (
+                        <Badge variant="outline" className="text-[10px] text-slate-400 font-bold">
+                          Unit {unit.unitNumber}
                         </Badge>
                       )}
-                      <Badge variant="outline" className="text-xs font-bold text-slate-600">
-                        Unit {unit.unitNumber}
-                      </Badge>
+                      {isPlayable && (
+                        <Badge variant="outline" className="text-xs font-bold text-slate-600">
+                          Unit {unit.unitNumber}
+                        </Badge>
+                      )}
                     </div>
                   </div>
 

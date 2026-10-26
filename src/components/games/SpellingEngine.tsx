@@ -230,7 +230,7 @@ export const SpellingEngine: React.FC<SpellingEngineProps> = ({ items, onEarnSta
                   placed
                     ? isSuccess
                       ? "bg-emerald-500 text-white shadow-lg shadow-emerald-200 scale-105"
-                      : "bg-gradient-to-b from-pink-500 to-rose-600 text-white shadow-md shadow-pink-200 cursor-pointer active:scale-95"
+                      : "bg-linear-to-b from-pink-500 to-rose-600 text-white shadow-md shadow-pink-200 cursor-pointer active:scale-95"
                     : "border-2 border-dashed border-slate-300 bg-slate-50 text-slate-300"
                 }`}
               >

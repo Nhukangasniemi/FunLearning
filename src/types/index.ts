@@ -90,6 +90,8 @@ export interface BookType {
   sortOrder: number;
   isPublished: boolean;
   units?: UnitType[];
+  totalWords?: number;
+  totalQuizzes?: number;
 }
 
 export interface UnitType {
@@ -106,6 +108,8 @@ export interface UnitType {
   isPublished: boolean;
   vocabularyItems?: VocabularyItemType[];
   quizQuestions?: QuizQuestionType[];
+  wordCount?: number;
+  quizCount?: number;
 }
 
 // Progress Models

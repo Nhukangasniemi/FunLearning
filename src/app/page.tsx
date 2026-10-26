@@ -8,7 +8,7 @@ import { QuizGame } from "@/components/QuizGame";
 import { DictionaryView } from "@/components/DictionaryView";
 import { ProModal } from "@/components/ProModal";
 import { FOOD_ITEMS as INITIAL_FOODS } from "@/data/foodItems";
-import { FoodItemType, MealType } from "@/types";
+import { FoodItemType, MealType, QuizQuestionType } from "@/types";
 import { soundManager } from "@/lib/audio";
 import { Award, BookOpen, Utensils, Library, ArrowRight, Sparkles } from "lucide-react";
 import Link from "next/link";
@@ -28,6 +28,7 @@ export default function HomePage() {
   const [stars, setStars] = useState(0);
   const [completedMeals, setCompletedMeals] = useState<MealType[]>([]);
   const [foodItems, setFoodItems] = useState<FoodItemType[]>(INITIAL_FOODS);
+  const [quizQuestions, setQuizQuestions] = useState<QuizQuestionType[]>([]);
 
   // Character interaction states
   const [lilySpeech, setLilySpeech] = useState(
@@ -53,6 +54,18 @@ export default function HomePage() {
         }
       } catch (e) {
         console.warn("Could not fetch items from Neon DB:", e);
+      }
+
+      try {
+        const quizRes = await fetch("/api/quiz?unitSlug=unit-4-food");
+        if (quizRes.ok) {
+          const quizData = await quizRes.json();
+          if (quizData.questions && quizData.questions.length > 0) {
+            setQuizQuestions(quizData.questions);
+          }
+        }
+      } catch (e) {
+        console.warn("Could not fetch quiz questions from Neon DB:", e);
       }
 
       try {
@@ -141,7 +154,7 @@ export default function HomePage() {
       />
 
       {/* Curriculum Hub Quick Jump Banner */}
-      <div className="w-full bg-gradient-to-r from-pink-500 via-purple-600 to-indigo-600 text-white shadow-md">
+      <div className="w-full bg-linear-to-r from-pink-500 via-purple-600 to-indigo-600 text-white shadow-md">
         <div className="max-w-7xl mx-auto px-4 py-2.5 flex items-center justify-between flex-wrap gap-2">
           <div className="flex items-center gap-2">
             <span className="font-extrabold text-xs md:text-sm flex items-center gap-1.5">
@@ -155,10 +168,16 @@ export default function HomePage() {
 
           <div className="flex items-center gap-2">
             <Link
+              href="/dashboard"
+              className="px-3.5 py-1.5 bg-amber-400 text-amber-950 rounded-full font-black text-xs hover:bg-amber-300 shadow-sm transition-all flex items-center gap-1.5"
+            >
+              <span>📚 Dashboard (3 Books)</span>
+            </Link>
+            <Link
               href="/books/starters"
               className="px-3.5 py-1.5 bg-white text-slate-900 rounded-full font-black text-xs hover:bg-pink-100 shadow-sm transition-all flex items-center gap-1.5"
             >
-              <span>Get Ready for Starters (6 Units)</span>
+              <span>Starters Units</span>
               <ArrowRight className="w-3.5 h-3.5 text-pink-600" />
             </Link>
           </div>
@@ -166,7 +185,7 @@ export default function HomePage() {
       </div>
 
       {/* Main Tab Navigation */}
-      <nav className="w-full border-b border-slate-200/80 bg-white/70 backdrop-blur-md shadow-2xs">
+      <nav className="w-full border-b border-slate-200/80 bg-white/70 backdrop-blur-md shadow-xs">
         <div className="max-w-7xl mx-auto px-4 flex gap-2 overflow-x-auto py-2">
           {[
             { id: "feed", label: "1. Feed Lily (Meals & Desserts)", icon: <Utensils className="w-4 h-4" /> },
@@ -216,7 +235,10 @@ export default function HomePage() {
           )}
 
           {activeTab === "quiz" && (
-            <QuizGame onEarnStar={handleEarnStar} />
+            <QuizGame
+              onEarnStar={handleEarnStar}
+              questions={quizQuestions}
+            />
           )}
 
           {activeTab === "dict" && (

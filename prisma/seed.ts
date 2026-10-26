@@ -274,7 +274,7 @@ async function main() {
   // =========================================================================
   console.log("🍎 Seeding authentic Cambridge vocabulary items...");
 
-  // --- Starters Unit 4: Food & Meals (18 items from foodItems.ts) ---
+  // --- Starters Unit 4: Food & Meals (42 items from foodItems.ts) ---
   const foodUnitId = createdStartersUnits["unit-4-food"];
   for (let idx = 0; idx < FOOD_ITEMS.length; idx++) {
     const item = FOOD_ITEMS[idx];

@@ -154,7 +154,7 @@ export const VocabularyLearnStudio: React.FC<VocabularyLearnStudioProps> = ({
 
       {/* Featured Word Display Hero */}
       {selectedWord && (
-        <Card className="p-6 mb-8 bg-gradient-to-r from-pink-50 via-purple-50 to-blue-50 border-2 border-pink-200 rounded-3xl shadow-lg">
+        <Card className="p-6 mb-8 bg-linear-to-r from-pink-50 via-purple-50 to-blue-50 border-2 border-pink-200 rounded-3xl shadow-lg">
           <div className="flex flex-col md:flex-row items-center gap-6">
             <div className="w-36 h-36 bg-white rounded-2xl p-3 shadow-md flex items-center justify-center border border-pink-100 shrink-0">
               {selectedWord.svg ? (
@@ -197,7 +197,7 @@ export const VocabularyLearnStudio: React.FC<VocabularyLearnStudioProps> = ({
                   <button
                     key={`${selectedWord.id}-syl-${idx}`}
                     onClick={() => handlePlaySyllable(syllable)}
-                    className="px-2.5 py-1 bg-white border border-pink-300 text-pink-700 hover:bg-pink-100 rounded-lg text-xs font-black shadow-2xs active:scale-95 transition-transform"
+                    className="px-2.5 py-1 bg-white border border-pink-300 text-pink-700 hover:bg-pink-100 rounded-lg text-xs font-black shadow-xs active:scale-95 transition-transform"
                     title={`Hear syllable '${syllable}'`}
                   >
                     {syllable}
